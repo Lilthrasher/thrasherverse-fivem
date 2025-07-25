@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m fivem
 WORKDIR /home/fivem
 
+# Use non-root user
+USER fivem
+
 # Download and extract latest FiveM Linux server artifact
 # You can change this to a fixed version if needed
 RUN mkdir -p /home/fivem/server
@@ -34,9 +37,6 @@ RUN chmod +x /home/fivem/entrypoint.sh
 VOLUME /home/fivem/server-data
 WORKDIR /home/fivem/server-data
 RUN git clone https://github.com/citizenfx/cfx-server-data.git
-
-# Use non-root user
-USER fivem
 
 # Expose FiveM ports
 EXPOSE 30120/tcp 30120/udp
