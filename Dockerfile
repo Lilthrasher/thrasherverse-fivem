@@ -4,6 +4,9 @@ FROM ubuntu:24.04
 # Prevent interactive prompts during package installs
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Run as root
+USER root
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     git \
