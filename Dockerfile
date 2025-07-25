@@ -5,9 +5,9 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
-# RUN apt-get update && apt-get install -y \
-#     xz-utils \
-#     && apt-get clean
+RUN apt-get update && apt-get install -y \
+    xz-utils \
+    && apt-get clean
 
 # Create user and directories
 RUN useradd -m fivem
