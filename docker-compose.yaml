@@ -8,7 +8,7 @@ services:
       - 30120:30120/udp
       - 40120:40120/tcp
     volumes:
-      - ${SERVER_DATA}:/home/fivem/server/server-data
+      - ${SERVER_DATA}:/home/fivem/server/txData
   
   mariadb-fivem:
     image: mariadb:latest
