@@ -19,8 +19,8 @@ RUN mkdir -p /home/fivem/server
 WORKDIR /home/fivem/server
 
 # Replace with specific artifact version or automate if you want
-ENV FX_VERSION=17000
-RUN curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${FX_VERSION}/fx.tar.xz \
+# ENV FX_VERSION=17000
+RUN curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/17000-e0ef7490f76a24505b8bac7065df2b7075e610ba/fx.tar.xz \
     && tar -xf fx.tar.xz \
     && rm fx.tar.xz
     
