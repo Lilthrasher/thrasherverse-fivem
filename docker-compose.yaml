@@ -9,7 +9,7 @@ services:
       - 40120:40120/tcp
     volumes:
       - ${SERVER_DATA}:/home/fivem/server
-  
+
   mariadb-fivem:
     image: mariadb:latest
     container_name: mariadb-fivem
