@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
+    curl
     xz-utils \
     && apt-get clean
 
