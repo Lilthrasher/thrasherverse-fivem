@@ -9,3 +9,16 @@ services:
       - 40120:40120/tcp
     volumes:
       - ${SERVER_DATA}:/home/fivem/server-data
+  
+  mariadb-fivem:
+    image: mariadb:latest
+    container_name: mariadb-fivem
+    restart: unless-stopped
+    volumes:
+      - mariadb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+
+volumes:
+  mariadb:
+    external: true
