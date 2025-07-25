@@ -19,6 +19,9 @@ WORKDIR /home/fivem
 COPY entrypoint.sh /home/fivem/entrypoint.sh
 RUN chmod +x /home/fivem/entrypoint.sh
 
+# Use non-root user
+USER fivem
+
 # Download and extract latest FiveM Linux server artifact
 # You can change this to a fixed version if needed
 RUN mkdir -p /home/fivem/server
@@ -29,6 +32,10 @@ WORKDIR /home/fivem/server
 RUN curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/17000-e0ef7490f76a24505b8bac7065df2b7075e610ba/fx.tar.xz \
     && tar -xf fx.tar.xz \
     && rm fx.tar.xz
+
+# Ensure server data volume
+VOLUME /home/fivem/server/server-data
+WORKDIR /home/fivem/server/server-data
 
 # Expose FiveM ports
 EXPOSE 30120/tcp 30120/udp
