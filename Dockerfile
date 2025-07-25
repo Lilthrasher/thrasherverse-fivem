@@ -34,7 +34,7 @@ RUN curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_lin
     && rm fx.tar.xz
 
 # Ensure server data volume
-VOLUME /home/fivem/server-data
+VOLUME /home/fivem/server/server-data
 WORKDIR /home/fivem/server-data
 RUN git clone https://github.com/citizenfx/cfx-server-data.git
 
