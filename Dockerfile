@@ -26,13 +26,17 @@ USER fivem
 # You can change this to a fixed version if needed
 RUN mkdir -p /home/fivem/server
 WORKDIR /home/fivem/server
-VOLUME /home/fivem/server
 
 # Replace with specific artifact version or automate if you want
 # ENV FX_VERSION=17000
 RUN curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/17000-e0ef7490f76a24505b8bac7065df2b7075e610ba/fx.tar.xz \
     && tar -xf fx.tar.xz \
     && rm fx.tar.xz
+
+# Ensure server data volume
+VOLUME /home/fivem/server/server-data
+WORKDIR /home/fivem/server/server-data
+RUN git clone https://github.com/citizenfx/cfx-server-data.git
 
 # Expose FiveM ports
 EXPOSE 30120/tcp 30120/udp
