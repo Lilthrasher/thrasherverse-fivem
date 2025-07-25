@@ -38,6 +38,9 @@ RUN mkdir /home/fivem/server/txData
 VOLUME /home/fivem/server/txData
 WORKDIR /home/fivem/server/txData
 
+# Ensure non-root user owns directories
+RUN chown -R fivem:fivem /home/fivem/
+
 # Expose FiveM ports
 EXPOSE 30120/tcp 30120/udp
 EXPOSE 40120/tcp
