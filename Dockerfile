@@ -19,9 +19,6 @@ WORKDIR /home/fivem
 COPY entrypoint.sh /home/fivem/entrypoint.sh
 RUN chmod +x /home/fivem/entrypoint.sh
 
-# Use non-root user
-USER fivem
-
 # Download and extract latest FiveM Linux server artifact
 # You can change this to a fixed version if needed
 RUN mkdir -p /home/fivem/server
