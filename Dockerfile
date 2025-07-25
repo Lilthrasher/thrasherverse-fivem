@@ -15,6 +15,10 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m fivem
 WORKDIR /home/fivem
 
+# Copy entrypoint script
+COPY entrypoint.sh /home/fivem/entrypoint.sh
+RUN chmod +x /home/fivem/entrypoint.sh
+
 # Use non-root user
 USER fivem
 
@@ -28,10 +32,6 @@ WORKDIR /home/fivem/server
 RUN curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/17000-e0ef7490f76a24505b8bac7065df2b7075e610ba/fx.tar.xz \
     && tar -xf fx.tar.xz \
     && rm fx.tar.xz
-    
-# Copy entrypoint script
-COPY entrypoint.sh /home/fivem/entrypoint.sh
-RUN chmod +x /home/fivem/entrypoint.sh
 
 # Ensure server data volume
 VOLUME /home/fivem/server-data
