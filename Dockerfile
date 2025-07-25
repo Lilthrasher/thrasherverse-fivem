@@ -11,21 +11,17 @@ RUN apt-get update && apt-get install -y \
     xz-utils \
     && apt-get clean
 
-# Create user and directories
-RUN useradd -m fivem
-WORKDIR /home/fivem
+# Create fivem directory
+RUN mkdir -p /opt/fivem
 
 # Copy entrypoint script
-COPY entrypoint.sh /home/fivem/entrypoint.sh
-RUN chmod +x /home/fivem/entrypoint.sh
-
-# Use non-root user
-USER fivem
+COPY entrypoint.sh /opt/fivem/entrypoint.sh
+RUN chmod +x /opt/fivem/entrypoint.sh
 
 # Download and extract latest FiveM Linux server artifact
 # You can change this to a fixed version if needed
-RUN mkdir -p /home/fivem/server
-WORKDIR /home/fivem/server
+RUN mkdir -p /opt/fivem/server
+WORKDIR /opt/fivem/server
 
 # Replace with specific artifact version or automate if you want
 # ENV FX_VERSION=17000
@@ -34,16 +30,12 @@ RUN curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_lin
     && rm fx.tar.xz
 
 # Ensure server data volume
-RUN mkdir /home/fivem/server/txData
-VOLUME /home/fivem/server/txData
-WORKDIR /home/fivem/server/txData
-
-# Ensure non-root user owns directories
-RUN chown -R fivem:fivem /home/fivem/
+RUN mkdir /opt/fivem/server/txData
+VOLUME /opt/fivem/server/txData
 
 # Expose FiveM ports
 EXPOSE 30120/tcp 30120/udp
 EXPOSE 40120/tcp
 
 # Entrypoint
-ENTRYPOINT ["/home/fivem/entrypoint.sh"]
+ENTRYPOINT ["/opt/fivem/entrypoint.sh"]
