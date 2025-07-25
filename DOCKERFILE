@@ -33,15 +33,12 @@ VOLUME /home/fivem/server-data
 WORKDIR /home/fivem/server-data
 RUN git clone https://github.com/citizenfx/cfx-server-data.git
 
-# Copy config file
-ENV LICENSE_KEY=changeme
-COPY server.cfg /home/fivem/server-data
-
 # Use non-root user
 USER fivem
 
 # Expose FiveM ports
 EXPOSE 30120/tcp 30120/udp
+EXPOSE 40120/tcp
 
 # Entrypoint
 ENTRYPOINT ["/home/fivem/entrypoint.sh"]
