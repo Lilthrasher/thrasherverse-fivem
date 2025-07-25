@@ -15,10 +15,10 @@ services:
     container_name: mariadb-fivem
     restart: unless-stopped
     volumes:
-      - mariadb:/var/lib/mysql
+      - mariadb_fivem:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
 
 volumes:
-  mariadb:
+  mariadb_fivem:
     external: true
