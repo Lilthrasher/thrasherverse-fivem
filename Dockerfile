@@ -34,9 +34,9 @@ RUN curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_lin
     && rm fx.tar.xz
 
 # Ensure server data volume
+RUN mkdir -p /home/fivem/server/txData
 VOLUME /home/fivem/server/txData
 WORKDIR /home/fivem/txData
-# RUN git clone https://github.com/citizenfx/cfx-server-data.git
 
 # Expose FiveM ports
 EXPOSE 30120/tcp 30120/udp
