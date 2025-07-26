@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/opt/fivem/server/run.sh
+/opt/fivem/run.sh
