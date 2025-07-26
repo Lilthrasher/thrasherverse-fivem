@@ -1,7 +1,7 @@
 services:
-  thrasherverse-fivem:
-    image: fivem
-    container_name: thrasherverse-fivem
+  fxserver_thrasherverse:
+    image: lilthrasher/fxserver:latest
+    container_name: fxserver_thrasherverse
     restart: unless-stopped
     ports:
       - 30120:30120/tcp
