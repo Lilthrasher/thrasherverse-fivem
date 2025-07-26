@@ -16,15 +16,22 @@ jobs:
       - name: Get latest build
         id: get_build
         run: |
-          BUILD=$(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ \
+          BUILD_FULL=$(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ \
             | grep -Eo '[0-9]+-[a-f0-9]{40}' \
             | sort -n \
             | tail -n 1)
-          echo "Latest build: $BUILD"
-          echo "build_id=$BUILD" >> $GITHUB_OUTPUT
+
+          BUILD_SHORT="${BUILD_FULL%%-*}"
+
+          echo "Latest full build: $BUILD_FULL"
+          echo "Build number only: $BUILD_SHORT"
+
+          echo "build_id=$BUILD_FULL" >> $GITHUB_OUTPUT
+          echo "build_tag=$BUILD_SHORT" >> $GITHUB_OUTPUT
+
 
       - name: Set Docker tag
-        run: echo "REPO_TAG=${{ steps.get_build.outputs.build_id }}" >> $GITHUB_ENV
+        run: echo "REPO_TAG=${{ steps.get_build.outputs.build_tag }}" >> $GITHUB_ENV
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
