@@ -1,8 +1,8 @@
-name: Build & Push FiveM Docker Image (Latest Build)
+name: Build & Push FXServer Docker Image
 
 on:
   schedule:
-    - cron: '0 3 * * *'  # Daily at 3am UTC
+    - cron: '0 4 * * *'  # Daily at 4am UTC
   workflow_dispatch:
 
 jobs:
@@ -41,13 +41,13 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t lilthrasher/fivem-server:${{ env.REPO_TAG }} .
+          docker build -t lilthrasher/fxserver:${{ env.REPO_TAG }} .
 
       - name: Push image to Docker Hub
         run: |
-          docker push lilthrasher/fivem-server:${{ env.REPO_TAG }}
+          docker push lilthrasher/fxserver:${{ env.REPO_TAG }}
 
       - name: Update latest tag
         run: |
-          docker tag lilthrasher/fivem-server:${{ env.REPO_TAG }} lilthrasher/fivem-server:latest
-          docker push lilthrasher/fivem-server:latest
+          docker tag lilthrasher/fxserver:${{ env.REPO_TAG }} lilthrasher/fxserver:latest
+          docker push lilthrasher/fxserver:latest
