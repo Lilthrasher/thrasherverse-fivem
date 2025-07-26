@@ -16,7 +16,7 @@ RUN mkdir -p /opt/fivem
 WORKDIR /opt/fivem
 
 # Copy entrypoint script
-COPY entrypoint.sh /opt/fivem/ampstart.sh
+COPY ampstart.sh /opt/fivem/ampstart.sh
 RUN chmod +x /opt/fivem/ampstart.sh
 
 # Download the latest fxserver build
