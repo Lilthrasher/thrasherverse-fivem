@@ -34,13 +34,13 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t yourdockeruser/fivem-server:${{ env.REPO_TAG }} .
+          docker build -t lilthrasher/fivem-server:${{ env.REPO_TAG }} .
 
       - name: Push image to Docker Hub
         run: |
-          docker push yourdockeruser/fivem-server:${{ env.REPO_TAG }}
+          docker push lilthrasher/fivem-server:${{ env.REPO_TAG }}
 
       - name: Update latest tag
         run: |
-          docker tag yourdockeruser/fivem-server:${{ env.REPO_TAG }} yourdockeruser/fivem-server:latest
-          docker push yourdockeruser/fivem-server:latest
+          docker tag lilthrasher/fivem-server:${{ env.REPO_TAG }} lilthrasher/fivem-server:latest
+          docker push lilthrasher/fivem-server:latest
