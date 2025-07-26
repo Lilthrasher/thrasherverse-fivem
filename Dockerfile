@@ -1,5 +1,5 @@
-# Use cubecoders base image
-FROM cubecoders/ampbase
+# Use Ubuntu as the base image
+FROM ubuntu:24.04
 
 # Prevent interactive prompts during package installs
 ENV DEBIAN_FRONTEND=noninteractive
@@ -16,8 +16,8 @@ RUN mkdir -p /opt/fivem
 WORKDIR /opt/fivem
 
 # Copy entrypoint script
-COPY ampstart.sh /opt/fivem/ampstart.sh
-RUN chmod +x /opt/fivem/ampstart.sh
+COPY entrypoint.sh /opt/fivem/entrypoint.sh
+RUN chmod +x /opt/fivem/entrypoint.sh
 
 # Download the latest fxserver build
 RUN curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ \
@@ -35,5 +35,4 @@ EXPOSE 30120/tcp 30120/udp
 EXPOSE 40120/tcp
 
 # Entrypoint
-ENTRYPOINT ["/ampstart.sh"]
-CMD []
+ENTRYPOINT ["/opt/fivem/entrypoint.sh"]
