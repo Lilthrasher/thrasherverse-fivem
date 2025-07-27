@@ -6,7 +6,7 @@ FXServer allows you to run a server for either GTA5 or RDR2. I was looking for a
 
 When you first run the container, the container logs will include the PIN necessary for txAdmin to link your Cfx.re account.
 
-After linking your account txAdmin will ask for you to setup a backup password in case you cannot authenticate with Cfx.re.
+After linking your account, txAdmin will ask for you to setup a backup password in case you cannot authenticate with Cfx.re.
 
 Select the options you would like during the first 5 steps of setup, however I recommend you don't change the Data Location during step 4 because "/opt/fxserver/txData" is the location of the container volume mount and changing this will make you unable to access the folders required to add or change mods.
 
