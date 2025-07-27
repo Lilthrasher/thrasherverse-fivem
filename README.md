@@ -4,10 +4,14 @@ FXServer allows you to run a server for either GTA5 or RDR2. I was looking for a
 
 ## How to use this container image
 
-I have provided an example docker compose file with everything needed to get a server running.
+When you first run the container, the container logs will include the PIN necessary for txAdmin to link your Cfx.re account.
 
-The container provides a mount point at "/opt/fxserver/txData" which gives you access to the necessary folders to add mods on the server.
+After linking your account txAdmin will ask for you to setup a backup password in case you cannot authenticate with Cfx.re.
 
-This image uses txAdmin for setup and control which allows you to run recipies and install server frameworks during initial setup.
+Select the options you would like during the first 5 steps of setup, however I recommend you don't change the Data Location during step 4 because "/opt/fxserver/txData" is the location of the container volume mount and changing this will make you unable to access the folders required to add or change mods.
 
-txAdmin should be reachable at port 40120.
+Once you get to the "Input Parameters" step, you need to change the advanced database options to connect to the mariadb service running in a seperate container.
+
+If you are using the docker compose file provided you should be able to enter "mariadb-fxserver" for the database host, and enter the database root password you have set in your .env file, after changing those two settings you should be able to run your recipe.
+
+After checking your server config you can start your server.
