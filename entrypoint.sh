@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/opt/fivem/run.sh
+/opt/fxserver/run.sh

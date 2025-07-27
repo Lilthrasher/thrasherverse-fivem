@@ -1,24 +1,24 @@
 services:
-  fxserver_thrasherverse:
+  fxserver-thrasherverse:
     image: lilthrasher/fxserver:latest
-    container_name: fxserver_thrasherverse
+    container_name: fxserver-thrasherverse
     restart: unless-stopped
     ports:
       - 30120:30120/tcp
       - 30120:30120/udp
-      - 40120:40120/tcp
+      - 40120:40120/tcp # txAdmin
     volumes:
-      - ${SERVER_DATA}:/opt/fivem/txData
+      - ${SERVER_DATA}:/opt/fxserver/txData
 
-  mariadb-fivem:
+  mariadb-fxserver:
     image: mariadb:latest
-    container_name: mariadb-fivem
+    container_name: mariadb-fxserver
     restart: unless-stopped
     volumes:
-      - mariadb_fivem:/var/lib/mysql
+      - mariadb-fxserver:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
 
 volumes:
-  mariadb_fivem:
+  mariadb-fxserver:
     external: true

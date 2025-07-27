@@ -11,13 +11,13 @@ RUN apt-get update && apt-get install -y \
     xz-utils \
     && apt-get clean
 
-# Create fivem directory
-RUN mkdir -p /opt/fivem
-WORKDIR /opt/fivem
+# Create fxserver directory
+RUN mkdir -p /opt/fxserver
+WORKDIR /opt/fxserver
 
 # Copy entrypoint script
-COPY entrypoint.sh /opt/fivem/entrypoint.sh
-RUN chmod +x /opt/fivem/entrypoint.sh
+COPY entrypoint.sh /opt/fxserver/entrypoint.sh
+RUN chmod +x /opt/fxserver/entrypoint.sh
 
 # Download the latest fxserver build
 RUN curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ \
@@ -28,11 +28,11 @@ RUN curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ 
   && tar -xf fx.tar.xz && rm fx.tar.xz
 
 # Ensure server data volume
-VOLUME /opt/fivem/txData
+VOLUME /opt/fxserver/txData
 
-# Expose FiveM ports
+# Expose fxserver ports
 EXPOSE 30120/tcp 30120/udp
 EXPOSE 40120/tcp
 
 # Entrypoint
-ENTRYPOINT ["/opt/fivem/entrypoint.sh"]
+ENTRYPOINT ["/opt/fxserver/entrypoint.sh"]
