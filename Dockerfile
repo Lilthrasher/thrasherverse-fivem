@@ -19,13 +19,19 @@ WORKDIR /opt/fxserver
 COPY entrypoint.sh /opt/fxserver/entrypoint.sh
 RUN chmod +x /opt/fxserver/entrypoint.sh
 
+# Download FX_BUILD version of fxserver
+ARG FX_BUILD
+RUN curl -Lo fx.tar.xz \
+    https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${FX_BUILD}/fx.tar.xz && \
+    tar -xf fx.tar.xz && rm fx.tar.xz
+
 # Download the latest fxserver build
-RUN curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ \
-  | grep -Eo '[0-9]+-[a-f0-9]{40}' \
-  | sort -n \
-  | tail -n 1 \
-  | xargs -I{} curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/{}/fx.tar.xz \
-  && tar -xf fx.tar.xz && rm fx.tar.xz
+# RUN curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ \
+#   | grep -Eo '[0-9]+-[a-f0-9]{40}' \
+#   | sort -n \
+#   | tail -n 1 \
+#   | xargs -I{} curl -Lo fx.tar.xz https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/{}/fx.tar.xz \
+#   && tar -xf fx.tar.xz && rm fx.tar.xz
 
 # Ensure server data volume
 VOLUME /opt/fxserver/txData
