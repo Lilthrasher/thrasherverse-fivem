@@ -59,7 +59,7 @@ jobs:
             short="${build%%-*}"
 
               echo "Checking if $short exists on Docker Hub..."
-              if curl -s "https://registry.hub.docker.com/v2/repositories/youruser/fivem-server/tags/$short" | grep -q '"name"'; then
+              if curl -s "https://registry.hub.docker.com/v2/repositories/lilthrasher/fxserver/tags/$short" | grep -q '"name"'; then
                 echo "✔️ $short already exists — skipping."
                 continue
               fi
