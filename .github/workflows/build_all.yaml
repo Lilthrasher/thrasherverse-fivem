@@ -63,8 +63,7 @@ jobs:
             # Update builds.json
             jq --arg b "$build" '. + {($b): "built"}' builds.json > tmp.json && mv tmp.json builds.json
             # Remove image from runner
-            docker rmi lilthrasher/fxserver:"$short" || true
-            docker image prune -f
+            docker system prune -a -f
             # Send build notification
             curl \
               -H "Title: ✅ FXServer build completed successfully." \
