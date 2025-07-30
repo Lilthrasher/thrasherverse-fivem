@@ -47,6 +47,7 @@ jobs:
             docker push lilthrasher/fxserver:"$short"
 
             # Remove image from runner
+            echo "🧹 Cleaning up Builds from Runner"
             docker system prune -a -f
 
             # Send build notification
