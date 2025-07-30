@@ -62,6 +62,8 @@ jobs:
             docker push lilthrasher/fxserver:"$short"
             # Update builds.json
             jq --arg b "$build" '. + {($b): "built"}' builds.json > tmp.json && mv tmp.json builds.json
+            # Remove image from runner
+            docker rmi fivem-server:"$short" || true
             # Send build notification
             curl \
               -H "Title: ✅ FXServer build completed successfully." \
