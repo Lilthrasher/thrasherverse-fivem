@@ -15,9 +15,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y jq
-
       - name: Fetch build list
         id: get_builds
         run: |
@@ -25,64 +22,33 @@ jobs:
             | grep -Eo '[0-9]+-[a-f0-9]{40}' \
             | sort -n > builds_all.txt
 
-      - name: Initialize builds.json if missing
-        run: |
-          [ -f builds.json ] || echo "{}" > builds.json
-
-      - name: Determine new builds
-        id: find_new
-        run: |
-          new_builds=()
-          while IFS= read -r build; do
-            if ! jq -e --arg b "$build" '.[$b]' builds.json > /dev/null; then
-              new_builds+=("$build")
-            fi
-          done < builds_all.txt
-          printf "%s\n" "${new_builds[@]}" > new_builds.txt
-          echo "count=$((${#new_builds[@]}))" >> $GITHUB_OUTPUT
-
-      - name: Early exit if none to build
-        if: steps.find_new.outputs.count == '0'
-        run: echo "✅ No new builds to process."
-
       - name: Login to Docker Hub
-        if: steps.find_new.outputs.count != '0'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and tag new builds
-        if: steps.find_new.outputs.count != '0'
         run: |
           while IFS= read -r build; do
             short="${build%%-*}"
 
-              echo "Checking if $short exists on Docker Hub..."
-              if curl -s "https://registry.hub.docker.com/v2/repositories/lilthrasher/fxserver/tags/$short" | grep -q '"name"'; then
-                echo "✔️ $short already exists — skipping."
-                continue
-              fi
+            # Check for build on docker hub
+            echo "Checking if $short exists on Docker Hub..."
+            if curl -s "https://registry.hub.docker.com/v2/repositories/lilthrasher/fxserver/tags/$short" | grep -q '"name"'; then
+              echo "✔️ $short already exists — skipping."
+              continue
+            fi
 
             echo "🛠️ Building FXServer build $build (tag: $short)"
             docker build --build-arg FX_BUILD="$build" -t lilthrasher/fxserver:"$short" .
             docker push lilthrasher/fxserver:"$short"
-            # # Update builds.json
-            # jq --arg b "$build" '. + {($b): "built"}' builds.json > tmp.json && mv tmp.json builds.json
+
             # Remove image from runner
             docker system prune -a -f
+
             # Send build notification
             curl \
               -H "Title: ✅ FXServer build completed successfully." \
               -d "Version "$short" built successfully." \
               ${{ secrets.NTFY_URL }}
-          done < new_builds.txt
-
-      # - name: Commit updated builds.json
-      #   if: steps.find_new.outputs.count != '0'
-      #   run: |
-      #     git config user.name "github-actions"
-      #     git config user.email "github-actions@github.com"
-      #     git add builds.json
-      #     git commit -m "Build FXServer artifacts: $(paste -sd, new_builds.txt)"
-      #     git push
