@@ -57,11 +57,18 @@ jobs:
         run: |
           while IFS= read -r build; do
             short="${build%%-*}"
+
+              echo "Checking if $short exists on Docker Hub..."
+              if curl -s "https://registry.hub.docker.com/v2/repositories/youruser/fivem-server/tags/$short" | grep -q '"name"'; then
+                echo "✔️ $short already exists — skipping."
+                continue
+              fi
+
             echo "🛠️ Building FXServer build $build (tag: $short)"
             docker build --build-arg FX_BUILD="$build" -t lilthrasher/fxserver:"$short" .
             docker push lilthrasher/fxserver:"$short"
-            # Update builds.json
-            jq --arg b "$build" '. + {($b): "built"}' builds.json > tmp.json && mv tmp.json builds.json
+            # # Update builds.json
+            # jq --arg b "$build" '. + {($b): "built"}' builds.json > tmp.json && mv tmp.json builds.json
             # Remove image from runner
             docker system prune -a -f
             # Send build notification
@@ -71,11 +78,11 @@ jobs:
               ${{ secrets.NTFY_URL }}
           done < new_builds.txt
 
-      - name: Commit updated builds.json
-        if: steps.find_new.outputs.count != '0'
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add builds.json
-          git commit -m "Build FXServer artifacts: $(paste -sd, new_builds.txt)"
-          git push
+      # - name: Commit updated builds.json
+      #   if: steps.find_new.outputs.count != '0'
+      #   run: |
+      #     git config user.name "github-actions"
+      #     git config user.email "github-actions@github.com"
+      #     git add builds.json
+      #     git commit -m "Build FXServer artifacts: $(paste -sd, new_builds.txt)"
+      #     git push
