@@ -1,4 +1,4 @@
-name: Build Every FXServer Version
+name: Build All FXServer Versions
 
 on:
   schedule:
@@ -15,6 +15,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Fetch build list
         id: get_builds
         run: |
@@ -22,13 +28,7 @@ jobs:
             | grep -Eo '[0-9]+-[a-f0-9]{40}' \
             | sort -n > builds_all.txt
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and tag new builds
+      - name: Build and Tag
         run: |
           while IFS= read -r build; do
             short="${build%%-*}"
@@ -40,7 +40,8 @@ jobs:
               continue
             fi
 
-            echo "🛠️ Building FXServer build $build (tag: $short)"
+            # Build docker container and push to docker hub
+            echo "🛠️ Building FXServer $build (tag: $short)"
             docker build --build-arg FX_BUILD="$build" -t lilthrasher/fxserver:"$short" .
             docker push lilthrasher/fxserver:"$short"
 
