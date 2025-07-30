@@ -52,4 +52,4 @@ jobs:
               -H "Title: ✅ FXServer build completed successfully." \
               -d "Version "$short" built successfully." \
               ${{ secrets.NTFY_URL }}
-          done < new_builds.txt
+          done < builds_all.txt
