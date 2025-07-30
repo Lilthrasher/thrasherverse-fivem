@@ -64,8 +64,8 @@ jobs:
             jq --arg b "$build" '. + {($b): "built"}' builds.json > tmp.json && mv tmp.json builds.json
             # Send build notification
             curl \
-            -H "Title: ✅ FXServer build for version "$short" completed successfully." \
-            ${{ secrets.NTFY_URL }}
+              -H "Title: ✅ FXServer build for version "$short" completed successfully." \
+              ${{ secrets.NTFY_URL }}
           done < new_builds.txt
 
       - name: Commit updated builds.json
