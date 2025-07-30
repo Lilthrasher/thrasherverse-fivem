@@ -43,6 +43,7 @@ jobs:
             # Build docker container and push to docker hub
             echo "🛠️ Building FXServer $build (tag: $short)"
             docker build --build-arg FX_BUILD="$build" -t lilthrasher/fxserver:"$short" .
+            echo "📦 Pushing to Docker Hub at lilthrasher/fxserver:"$short""
             docker push lilthrasher/fxserver:"$short"
 
             # Remove image from runner
