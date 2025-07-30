@@ -62,6 +62,10 @@ jobs:
             docker push lilthrasher/fxserver:"$short"
             # Update builds.json
             jq --arg b "$build" '. + {($b): "built"}' builds.json > tmp.json && mv tmp.json builds.json
+            # Send build notification
+            curl \
+            -H "Title: ✅ FXServer build for version "$short" completed successfully." \
+            ${{ secrets.NTFY_URL }}
           done < new_builds.txt
 
       - name: Commit updated builds.json
