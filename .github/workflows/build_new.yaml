@@ -64,7 +64,8 @@ jobs:
             jq --arg b "$build" '. + {($b): "built"}' builds.json > tmp.json && mv tmp.json builds.json
             # Send build notification
             curl \
-              -H "Title: ✅ FXServer build for version "$short" completed successfully." \
+              -H "Title: ✅ FXServer build completed successfully." \
+              -d "Version "$short" built successfully." \
               ${{ secrets.NTFY_URL }}
           done < new_builds.txt
 
@@ -76,17 +77,3 @@ jobs:
           git add builds.json
           git commit -m "Build FXServer artifacts: $(paste -sd, new_builds.txt)"
           git push
-
-      - name: 🔔 Send success notification
-        if: ${{ success() && steps.find_new.outputs.count != '0' }}
-        run: |
-          curl \
-          -H "Title: ✅ FXServer build(s) completed successfully." \
-          ${{ secrets.NTFY_URL }}
-
-      - name: 🔥 Send failure notification
-        if: ${{ failure() }}
-        run: |
-          curl \
-          -H "Title: ❌ FXServer build(s) failed!" \
-          ${{ secrets.NTFY_URL }}
