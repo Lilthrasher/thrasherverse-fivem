@@ -28,7 +28,7 @@ jobs:
             | grep -Eo '[0-9]+-[a-f0-9]{40}' \
             | sort -n > builds_all.txt
 
-      - name: Build and Tag
+      - name: Build and tag
         run: |
           while IFS= read -r build; do
             short="${build%%-*}"
