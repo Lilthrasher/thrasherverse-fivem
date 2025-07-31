@@ -1,4 +1,4 @@
-name: Build All FXServer Versions
+name: Build All FXServer Versions 2025 or Newer
 
 on:
   schedule:
@@ -28,7 +28,7 @@ jobs:
             | grep -Eo '[0-9]+-[a-f0-9]{40}' \
             | sort -n > builds_all.txt
 
-      - name: Build and tag
+      - name: Build tag and push
         run: |
           while IFS= read -r build; do
 
