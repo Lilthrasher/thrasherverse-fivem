@@ -32,14 +32,11 @@ jobs:
         run: |
           while IFS= read -r build; do
 
-            # Skipping versions older than 1/1/2025
             min_version=12180
-
-            # Short build number
             short="${build%%-*}"
 
+            # Skipping versions older than 1/1/2025
             if [ "$short" -lt "$min_version" ]; then
-              echo "⏭️ Skipping build $build — below minimum version $min_version"
               continue
             fi
 
