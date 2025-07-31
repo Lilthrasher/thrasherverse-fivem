@@ -31,8 +31,11 @@ jobs:
       - name: Build and tag
         run: |
           while IFS= read -r build; do
-          
-            min_version=2524
+
+            # Skipping versions older than 1/1/2025
+            min_version=12180
+
+            # Short build number
             short="${build%%-*}"
 
             if [ "$short" -lt "$min_version" ]; then
