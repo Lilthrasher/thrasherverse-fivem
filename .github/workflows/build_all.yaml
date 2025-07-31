@@ -31,7 +31,14 @@ jobs:
       - name: Build and tag
         run: |
           while IFS= read -r build; do
+          
+            min_version=2524
             short="${build%%-*}"
+
+            if [ "$short" -lt "$min_version" ]; then
+              echo "⏭️ Skipping build $build — below minimum version $min_version"
+              continue
+            fi
 
             # Check for build on docker hub
             echo "Checking if $short exists on Docker Hub..."
